@@ -1,0 +1,11 @@
+{
+  "name": "Drako AI",
+  "short_name": "Drako",
+  "description": "Assistente pessoal futurista",
+  "start_url": "./index.html",
+  "scope": "./",
+  "display": "standalone",
+  "background_color": "#050907",
+  "theme_color": "#050907",
+  "icons": [{"src":"icon.svg","sizes":"any","type":"image/svg+xml","purpose":"any maskable"}]
+}
