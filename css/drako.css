@@ -1,0 +1,57 @@
+:root {
+  color-scheme: dark;
+  --green: #39ff88;
+}
+
+html,
+body {
+  margin: 0;
+  height: 100%;
+  background: #000;
+  overflow: hidden;
+  overscroll-behavior: none;
+  touch-action: manipulation;
+  -webkit-user-select: none;
+  user-select: none;
+  -webkit-touch-callout: none;
+  -webkit-tap-highlight-color: transparent;
+}
+
+#scene {
+  position: fixed;
+  inset: 0;
+  width: 100vw;
+  height: 100vh;
+  height: 100dvh;
+  display: block;
+  background: #000;
+}
+
+/* Linhas de varredura holográficas, só com a interface ativa. */
+.scan {
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  opacity: 0;
+  transition: opacity 1.4s ease;
+  background:
+    repeating-linear-gradient(to bottom, rgba(57, 255, 136, 0.035) 0 1px, transparent 1px 3px),
+    radial-gradient(ellipse at center, transparent 55%, rgba(0, 0, 0, 0.65) 100%);
+  mix-blend-mode: screen;
+}
+
+body.active .scan {
+  opacity: 1;
+  animation: flicker 6s infinite steps(1);
+}
+
+@keyframes flicker {
+  0%, 100% { opacity: 1; }
+  47% { opacity: 0.85; }
+  48% { opacity: 1; }
+  82% { opacity: 0.9; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  body.active .scan { animation: none; }
+}

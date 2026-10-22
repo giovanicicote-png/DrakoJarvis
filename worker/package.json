@@ -1,0 +1,18 @@
+{
+  "name": "drako-worker",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "description": "Backend do Drako: guarda a chave da Anthropic e conversa com o Claude.",
+  "scripts": {
+    "dev": "wrangler dev",
+    "deploy": "wrangler deploy",
+    "test": "node --test test/*.test.js"
+  },
+  "dependencies": {
+    "@anthropic-ai/sdk": "0.137.0"
+  },
+  "devDependencies": {
+    "wrangler": "4.151.3"
+  }
+}

@@ -1,0 +1,16 @@
+# Configuração do Worker do Drako (Cloudflare Workers).
+# Segredos NÃO ficam aqui: ANTHROPIC_API_KEY e DRAKO_ACCESS_KEY são enviados como
+# secrets (pelo workflow do GitHub Actions ou com `npx wrangler secret put`).
+name = "drako"
+main = "src/index.js"
+compatibility_date = "2026-10-01"
+compatibility_flags = ["nodejs_compat"]
+
+[vars]
+# Origens que podem chamar o Worker (separe por vírgula). O GitHub Pages usa só o domínio.
+ALLOWED_ORIGINS = "https://giovanicicote-png.github.io"
+# Opcionais:
+# DRAKO_MODEL = "claude-opus-5-5"
+# DRAKO_EFFORT = "low"        # low | medium | high
+# DRAKO_WEB_SEARCH = "off"    # desliga a pesquisa na web
+# DRAKO_FALLBACKS = "off"     # desliga o fallback automático em caso de recusa

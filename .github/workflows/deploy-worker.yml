@@ -1,0 +1,46 @@
+# Publica o backend do Drako na Cloudflare (Workers), tudo pelo GitHub.
+# Configure antes em Settings -> Secrets and variables -> Actions:
+#   CLOUDFLARE_API_TOKEN   token da Cloudflare com o modelo "Edit Cloudflare Workers"
+#   CLOUDFLARE_ACCOUNT_ID  ID da sua conta Cloudflare
+#   ANTHROPIC_API_KEY      chave da API da Anthropic (console.anthropic.com)
+#   DRAKO_ACCESS_KEY       uma senha longa inventada por você (protege o Worker)
+# Depois: aba Actions -> "Publicar backend do Drako" -> Run workflow.
+name: Publicar backend do Drako
+
+on:
+  workflow_dispatch:
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: worker
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+      - run: npm ci
+      - run: npm test
+      - name: Verificar secrets
+        env:
+          CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+          CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+          ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
+          DRAKO_ACCESS_KEY: ${{ secrets.DRAKO_ACCESS_KEY }}
+        run: |
+          for v in CLOUDFLARE_API_TOKEN CLOUDFLARE_ACCOUNT_ID ANTHROPIC_API_KEY DRAKO_ACCESS_KEY; do
+            if [ -z "${!v}" ]; then echo "::error::Falta o secret $v"; exit 1; fi
+          done
+      - name: Publicar Worker e secrets
+        env:
+          CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+          CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+          ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
+          DRAKO_ACCESS_KEY: ${{ secrets.DRAKO_ACCESS_KEY }}
+        run: |
+          npx wrangler deploy
+          node -e 'const e=process.env;require("fs").writeFileSync("secrets.json",JSON.stringify({ANTHROPIC_API_KEY:e.ANTHROPIC_API_KEY,DRAKO_ACCESS_KEY:e.DRAKO_ACCESS_KEY}))'
+          npx wrangler secret bulk secrets.json
+          rm -f secrets.json

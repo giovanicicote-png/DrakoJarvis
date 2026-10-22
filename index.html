@@ -2,41 +2,24 @@
 <html lang="pt-BR">
 <head>
   <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
-  <meta name="theme-color" content="#050907">
-  <meta name="description" content="Drako — seu assistente pessoal futurista.">
+  <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover,user-scalable=no">
+  <meta name="theme-color" content="#000000">
+  <meta name="color-scheme" content="dark">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="apple-mobile-web-app-title" content="Drako">
+  <meta name="description" content="Drako — assistente pessoal por voz.">
   <link rel="manifest" href="manifest.json">
   <link rel="icon" href="icon.svg" type="image/svg+xml">
-  <title>Drako AI</title>
-  <style>
-    :root{color-scheme:dark;--bg:#050907;--panel:#0b1510;--green:#39ff88;--green2:#00d96b;--muted:#8ba596;--line:#183a27}
-    *{box-sizing:border-box}body{margin:0;background:radial-gradient(ellipse at 50% 0%,#10351f 0%,var(--bg) 48%);color:#eafff1;font:16px -apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;min-height:100vh}
-    button,textarea{font:inherit}button{cursor:pointer} .app{max-width:760px;margin:auto;padding:env(safe-area-inset-top) 16px calc(24px + env(safe-area-inset-bottom))}
-    header{display:flex;align-items:center;justify-content:space-between;padding:22px 2px 12px}.brand{display:flex;align-items:center;gap:11px}.logo{width:43px;height:43px;border:1px solid var(--green);border-radius:14px;display:grid;place-items:center;color:var(--green);box-shadow:0 0 22px #39ff8820;font-size:22px}.brand strong{letter-spacing:4px;font-size:20px}.brand small{display:block;color:var(--muted);font-size:10px;letter-spacing:2px;margin-top:3px}.status{font-size:11px;color:var(--green);border:1px solid var(--line);border-radius:30px;padding:8px 10px}
-    .hero{text-align:center;padding:26px 0 18px}.orb{width:150px;height:150px;margin:0 auto 18px;border:1px solid #39ff8877;border-radius:50%;display:grid;place-items:center;position:relative;background:radial-gradient(circle,#0e4227 0%,#06140c 60%,#050907 75%);box-shadow:0 0 45px #00ff6630,inset 0 0 30px #00ff6618;animation:pulse 3s infinite ease-in-out}.orb:before,.orb:after{content:"";position:absolute;inset:-9px;border:1px solid #39ff8833;border-radius:50%;border-left-color:var(--green);transform:rotate(25deg)}.orb:after{inset:-18px;border-color:#39ff8820;border-right-color:#39ff88;transform:rotate(-35deg)}.sigil{font-size:52px;color:var(--green);text-shadow:0 0 24px #39ff88}.hero h1{font-size:26px;letter-spacing:2px;margin:0}.hero p{color:var(--muted);font-size:13px;margin:9px 0 0}.section{background:#09130e;border:1px solid var(--line);border-radius:18px;padding:15px;margin:13px 0}.section-title{font-size:11px;letter-spacing:2px;color:var(--green);margin:0 0 12px}.messages{display:flex;flex-direction:column;gap:10px;max-height:34vh;overflow:auto}.msg{padding:12px 13px;border-radius:14px;line-height:1.45;font-size:14px;white-space:pre-wrap}.bot{background:#102319;border:1px solid #1d5033;align-self:flex-start;max-width:94%}.user{background:#123b24;border:1px solid #267a48;align-self:flex-end;max-width:94%}.composer{display:flex;gap:8px;align-items:stretch}.composer textarea{flex:1;min-width:0;resize:vertical;min-height:52px;max-height:150px;background:#050b07;color:#eafff1;border:1px solid var(--line);border-radius:13px;padding:14px;outline:none}.composer textarea:focus{border-color:var(--green)}.btn{border:1px solid #287448;background:#102d1b;color:var(--green);border-radius:13px;padding:0 15px;font-weight:650}.btn.primary{background:var(--green);color:#031008;border-color:var(--green)}.btn:active{transform:scale(.98)}.tools{display:flex;gap:8px;flex-wrap:wrap;margin-top:10px}.tools .btn{min-height:42px}.note{color:var(--muted);font-size:12px;line-height:1.5}.task{display:flex;gap:10px;align-items:flex-start;padding:10px 0;border-bottom:1px solid #173322}.task:last-child{border:0}.dot{width:8px;height:8px;background:var(--green);border-radius:50%;margin-top:6px;box-shadow:0 0 9px #39ff88}.task strong{font-size:13px;display:block}.task span{font-size:12px;color:var(--muted)}footer{text-align:center;color:#526b5b;font-size:10px;letter-spacing:1px;padding:20px 0 8px}@keyframes pulse{50%{box-shadow:0 0 60px #00ff6640,inset 0 0 38px #00ff6622;transform:scale(1.02)}}@media(prefers-reduced-motion:reduce){*{animation:none!important}}
-  </style>
+  <link rel="apple-touch-icon" href="icon-180.png">
+  <link rel="stylesheet" href="css/drako.css">
+  <title>Drako</title>
 </head>
-<body><main class="app">
-  <header><div class="brand"><div class="logo">⟡</div><div><strong>DRAKO</strong><small>PERSONAL AI SYSTEM</small></div></div><div class="status" id="status">● SISTEMA LOCAL</div></header>
-  <section class="hero"><div class="orb"><div class="sigil">ᛞ</div></div><h1>À sua disposição.</h1><p>Assistente futurista · Interface experimental</p></section>
-  <section class="section"><p class="section-title">CONVERSA</p><div class="messages" id="messages" aria-live="polite"><div class="msg bot">Sistema iniciado. Sou o Drako. Posso receber comandos por texto ou voz e falar as respostas. Esta versão ainda não está conectada a um modelo de IA nem tem acesso ao terminal/arquivos.</div></div></section>
-  <section class="section"><p class="section-title">COMANDO</p><div class="composer"><textarea id="prompt" rows="2" placeholder="Drako, o que vamos construir hoje?"></textarea><button class="btn primary" id="send" aria-label="Enviar comando">➤</button></div><div class="tools"><button class="btn" id="mic">🎙 Falar</button><button class="btn" id="voice">◖ Voz ativada</button><button class="btn" id="clear">Limpar conversa</button></div><p class="note" id="voiceNote">A voz e o reconhecimento dependem dos recursos disponíveis no navegador do iPhone.</p></section>
-  <section class="section"><p class="section-title">MÓDULOS</p><div class="task"><i class="dot"></i><div><strong>Interface e conversa</strong><span>Disponível neste protótipo</span></div></div><div class="task"><i class="dot"></i><div><strong>Voz do sistema</strong><span>Usa a síntese de voz do navegador</span></div></div><div class="task"><i class="dot" style="background:#819187"></i><div><strong>Agente de programação</strong><span>Pendente: conectar um modelo e executor seguro</span></div></div><div class="task"><i class="dot" style="background:#819187"></i><div><strong>Arquivos e terminal</strong><span>Pendente: ambiente remoto de execução</span></div></div></section>
-  <footer>DRAKO // BUILD 0.1 // PRIVACIDADE PRIMEIRO</footer>
-</main>
-<script>
-const $=s=>document.querySelector(s), messages=$('#messages'), promptBox=$('#prompt'), status=$('#status');
-let voiceOn=true;
-function add(text,who){const el=document.createElement('div');el.className='msg '+who;el.textContent=text;messages.appendChild(el);messages.scrollTop=messages.scrollHeight;return el}
-function speak(text){if(!voiceOn||!('speechSynthesis'in window))return;window.speechSynthesis.cancel();const u=new SpeechSynthesisUtterance(text);u.lang='pt-BR';u.rate=.92;u.pitch=.72;const voices=window.speechSynthesis.getVoices();const v=voices.find(x=>x.lang.toLowerCase().startsWith('pt-br'))||voices.find(x=>x.lang.toLowerCase().startsWith('pt'));if(v)u.voice=v;window.speechSynthesis.speak(u)}
-function localReply(t){const s=t.toLowerCase();if(s.includes('ajuda')||s.includes('o que você faz'))return 'Posso conversar por texto e voz nesta versão. Para programar de verdade, o próximo passo é conectar um modelo de IA e um ambiente isolado que possa editar arquivos e executar testes. Ainda não tenho essas permissões nesta versão.';if(s.includes('hora')||s.includes('data'))return 'A data e a hora do seu dispositivo são: '+new Date().toLocaleString('pt-BR')+'.';if(s.includes('limpar'))return 'Você pode usar o botão Limpar conversa para apagar as mensagens desta tela.';if(s.includes('crie')||s.includes('criar')||s.includes('código')||s.includes('codigo')||s.includes('sistema')||s.includes('site')||s.includes('app'))return 'Entendi seu pedido: “'+t+'”. Estou na versão 0.1, sem motor de IA ou terminal conectado. Posso registrar a ideia, mas ainda não consigo criar arquivos ou executar código de forma real. A próxima etapa é configurar o backend do agente e as permissões de execução.';return 'Recebido. Ainda estou no modo de demonstração local, sem um modelo de IA conectado. Posso falar esta resposta e manter a conversa nesta sessão, mas não vou fingir que executei uma tarefa.'}
-function send(){const t=promptBox.value.trim();if(!t)return;add(t,'user');promptBox.value='';status.textContent='● PROCESSANDO';const r=localReply(t);setTimeout(()=>{add(r,'bot');speak(r);status.textContent='● SISTEMA LOCAL'},250)}
-$('#send').addEventListener('click',send);promptBox.addEventListener('keydown',e=>{if(e.key==='Enter'&&!e.shiftKey){e.preventDefault();send()}});
-$('#voice').addEventListener('click',()=>{voiceOn=!voiceOn;$('#voice').textContent=voiceOn?'◖ Voz ativada':'◖ Voz desativada';if(!voiceOn&&'speechSynthesis'in window)window.speechSynthesis.cancel()});
-$('#clear').addEventListener('click',()=>{messages.replaceChildren();add('Conversa limpa. Drako continua em modo de demonstração local.','bot')});
-let recognition=null;const SR=window.SpeechRecognition||window.webkitSpeechRecognition;
-if(SR){recognition=new SR();recognition.lang='pt-BR';recognition.interimResults=false;recognition.maxAlternatives=1;recognition.onstart=()=>status.textContent='● OUVINDO';recognition.onresult=e=>{promptBox.value=e.results[0][0].transcript;status.textContent='● SISTEMA LOCAL'};recognition.onerror=e=>{status.textContent='● VOZ INDISPONÍVEL';$('#voiceNote').textContent='O reconhecimento de voz não funcionou ('+e.error+'). Digite o comando ou tente outro navegador.'};recognition.onend=()=>{if(status.textContent==='● OUVINDO')status.textContent='● SISTEMA LOCAL'}}
-$('#mic').addEventListener('click',()=>{if(!recognition){$('#voiceNote').textContent='Este navegador não oferece reconhecimento de voz compatível. Digite o comando; a resposta falada pode continuar disponível.';return}try{recognition.start()}catch(e){$('#voiceNote').textContent='O microfone já está ativo ou não pode ser iniciado. Verifique a permissão do navegador.'}});
-if('serviceWorker'in navigator && location.protocol.startsWith('http'))navigator.serviceWorker.register('./sw.js').catch(()=>{});
-if(!('speechSynthesis'in window))$('#voiceNote').textContent='Este navegador não oferece síntese de voz. Você ainda pode usar o chat por texto.';
-</script></body></html>
+<body>
+  <canvas id="scene" role="img" aria-label="Drako"></canvas>
+  <div class="scan" aria-hidden="true"></div>
+  <script src="js/config.js"></script>
+  <script type="module" src="js/app.js"></script>
+</body>
+</html>
