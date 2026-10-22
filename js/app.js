@@ -176,6 +176,10 @@ async function handleUtterance(text) {
       unauthorized: "unauthorized",
       origin: "unauthorized",
       "upstream-auth": "unauthorized",
+      "not-logged-in": "unconfigured",
+      "claude-missing": "unconfigured",
+      "usage-limit": "server",
+      timeout: "server",
       offline: "offline",
       unreachable: "network",
     }[kind] || "server";

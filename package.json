@@ -3,6 +3,7 @@
   "private": true,
   "type": "module",
   "scripts": {
-    "test": "node --test tests/*.test.mjs && npm --prefix worker test"
+    "test": "node --test tests/*.test.mjs bridge/test/*.test.mjs && npm --prefix worker test",
+    "bridge": "node bridge/server.mjs"
   }
 }

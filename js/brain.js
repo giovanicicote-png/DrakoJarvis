@@ -1,10 +1,12 @@
-// Cliente do backend do Drako (Cloudflare Worker). Nunca contém a chave da
-// Anthropic: só o endereço público do Worker e, opcionalmente, a chave de acesso
+// Cliente do cérebro do Drako. Funciona com os dois backends:
+//  - ponte local (bridge/), que usa o Claude Code da sua assinatura;
+//  - Cloudflare Worker (worker/), que usa a API da Anthropic.
+// Nunca contém chaves secretas: só o endereço do backend e a chave de acesso
 // pessoal guardada neste aparelho.
 
 const STORE_API = "drako.apiUrl";
 const STORE_KEY = "drako.accessKey";
-const TIMEOUT_MS = 70_000;
+const TIMEOUT_MS = 300_000; // tarefas no computador podem levar alguns minutos
 
 function store(key, value) {
   try {
@@ -50,7 +52,8 @@ export class BrainError extends Error {
 }
 
 export class Brain {
-  messages = [];
+  messages = []; // histórico (Worker)
+  session = null; // conversa do Claude Code (ponte local)
   pending = null;
   #controller = null;
 
@@ -61,6 +64,7 @@ export class Brain {
   reset() {
     this.abort();
     this.messages = [];
+    this.session = null;
     this.pending = null;
   }
 
@@ -88,6 +92,7 @@ export class Brain {
     const body = {
       ...payload,
       messages: this.messages,
+      session: this.session,
       timeZone: Intl.DateTimeFormat().resolvedOptions().timeZone,
     };
 
@@ -135,6 +140,7 @@ export class Brain {
         this.reset();
         return this.#send({ ...payload, retried: true });
       }
+      if (code === "aborted") throw new BrainError("aborted");
       if (code === "invalid_confirmation" || code === "invalid_confirm") {
         this.pending = null;
       }
@@ -142,6 +148,7 @@ export class Brain {
     }
 
     this.messages = Array.isArray(data.messages) ? data.messages : [];
+    this.session = data.session || null;
     this.pending = data.pending || null;
     return data.speech || "";
   }
@@ -152,6 +159,11 @@ function errorKind(status, code) {
   if (code === "unauthorized") return "unauthorized";
   if (code === "origin_not_allowed") return "origin";
   if (code === "upstream_auth") return "upstream-auth";
+  if (code === "usage_limit") return "usage-limit";
+  if (code === "not_logged_in") return "not-logged-in";
+  if (code === "claude_missing") return "claude-missing";
+  if (code === "upstream_unreachable") return "unreachable";
+  if (code === "timeout" || status === 504) return "timeout";
   if (code === "rate_limited" || status === 429) return "busy";
   if (code === "overloaded" || status === 503) return "busy";
   return "server";
@@ -165,9 +177,13 @@ export const ERROR_SPEECH = {
   unauthorized: "Senhor, o servidor recusou o acesso. A chave de acesso deste aparelho não confere.",
   origin: "Senhor, o servidor não aceita pedidos deste endereço. Verifique a lista de origens permitidas.",
   "upstream-auth": "Senhor, a chave da Anthropic cadastrada no servidor foi recusada.",
+  "usage-limit": "Senhor, o limite de uso da sua assinatura do Claude foi atingido. Tente novamente mais tarde.",
+  "not-logged-in":
+    "Senhor, o Claude Code no computador não está conectado à sua conta. Abra o terminal, rode claude e faça o login.",
+  "claude-missing": "Senhor, não encontrei o Claude Code instalado no computador.",
   busy: "Estou sobrecarregado no momento, senhor. Tente novamente em instantes.",
   offline: "Estou sem conexão com a internet, senhor.",
-  unreachable: "Não consegui alcançar o meu servidor, senhor. Verifique a conexão.",
+  unreachable: "Não consegui alcançar o meu servidor, senhor. Verifique a conexão e se o computador está ligado.",
   timeout: "O servidor demorou demais para responder, senhor.",
   server: "Ocorreu um erro no meu servidor, senhor.",
 };
